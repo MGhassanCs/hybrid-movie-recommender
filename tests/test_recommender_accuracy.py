@@ -1,3 +1,7 @@
+"""
+Test script for evaluating the accuracy of all recommender models in the MovieLens project.
+Computes ranking metrics (Precision@10, Recall@10, MAP@10, NDCG@10) and RMSE for all models.
+"""
 import numpy as np
 import pandas as pd
 from movie_recommender.data.loader import load_movies, load_ratings, load_users
@@ -7,19 +11,25 @@ from movie_recommender.models.hybrid import HybridRecommender
 from movie_recommender.utils.metrics import rmse, precision_at_k, recall_at_k, map_at_k, ndcg_at_k
 from sklearn.model_selection import train_test_split
 from collections import defaultdict
+from tqdm import tqdm
+
+#Tests can take a while to run, so either run them in a separate file or comment out the parts you don't want to run.
 
 # --- Toggle these flags to control retraining and grid search ---
-RETRAIN_SVD = True  # Set to True to retrain SVD from scratch
-RETRAIN_SVDPP = True  # Set to True to retrain SVD++ from scratch
-RETRAIN_NMF = True  # Set to True to retrain NMF from scratch
-GRID_SEARCH_SVD = True  # Set to True to run SVD grid search
-GRID_SEARCH_SVDPP = True  # Set to True to run SVD++ grid search
-GRID_SEARCH_NMF = True  # Set to True to run NMF grid search
+RETRAIN_SVD = False
+RETRAIN_SVDPP = True
+RETRAIN_NMF = True
+GRID_SEARCH_SVD = False  # Set to True to run SVD grid search
+GRID_SEARCH_SVDPP = False  # Set to True to run SVD++ grid search
+GRID_SEARCH_NMF = False  # Set to True to run NMF grid search
 TFIDF_PARAMS = {'ngram_range': (1, 2), 'min_df': 1, 'max_df': 1.0}  # Tune as needed
 ALPHAS = np.linspace(0, 1, 11)  # For hybrid alpha grid search
 
 
 def main():
+    """
+    Main test routine for evaluating all recommenders and metrics.
+    """
     print('Loading data...')
     movies = load_movies()
     ratings = load_ratings()
@@ -106,7 +116,7 @@ def main():
         'hybrid': {'prec': [], 'rec': [], 'map': [], 'ndcg': []},
     }
 
-    for user_id, relevant_movies in test_ratings_by_user.items():
+    for user_id, relevant_movies in tqdm(list(test_ratings_by_user.items()), desc='Users'):
         seen_movies = train_movies_by_user[user_id]
         # Content-based
         user_train_ratings = train_ratings[train_ratings['UserID'] == user_id][['MovieID', 'Rating']]
@@ -125,8 +135,8 @@ def main():
                 metrics['svd']['rec'].append(recall_at_k(relevant_movies, svd_recs, k=10))
                 metrics['svd']['map'].append(map_at_k(relevant_movies, svd_recs, k=10))
                 metrics['svd']['ndcg'].append(ndcg_at_k(relevant_movies, svd_recs, k=10))
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"SVD error for user {user_id}: {e}")
         # SVD++
         try:
             svdpp_recs = [mid for mid in svdpp_model.recommend(user_id, n=20, exclude_ids=seen_movies) if mid not in seen_movies][:10]

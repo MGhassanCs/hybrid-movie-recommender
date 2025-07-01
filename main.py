@@ -1,3 +1,7 @@
+"""
+Main entry point for the MovieLens Hybrid Recommender System.
+Supports training, evaluation, and launching the Streamlit web app.
+"""
 import argparse
 from movie_recommender.data.loader import load_movies, load_ratings, load_users
 from movie_recommender.models.content import ContentRecommender
@@ -9,6 +13,12 @@ import streamlit.web.bootstrap
 import os
 
 def train_models():
+    """
+    Train all models (content-based, collaborative, hybrid).
+
+    Returns:
+        tuple: (content_model, collab_model, hybrid_model)
+    """
     print('Loading data...')
     movies = load_movies()
     ratings = load_ratings()
@@ -24,6 +34,9 @@ def train_models():
     return content_model, collab_model, hybrid_model
 
 def evaluate_models():
+    """
+    Evaluate all models using RMSE and print results.
+    """
     print('Evaluating models...')
     movies = load_movies()
     ratings = load_ratings()
@@ -46,11 +59,17 @@ def evaluate_models():
     print('Evaluation complete.')
 
 def run_app():
+    """
+    Launch the Streamlit web application.
+    """
     print('Launching Streamlit app...')
     app_path = os.path.join(os.path.dirname(__file__), 'movie_recommender/app/webapp.py')
     streamlit.web.bootstrap.run(app_path, '', [], {})
 
 def main():
+    """
+    Parse command-line arguments and run the appropriate mode.
+    """
     parser = argparse.ArgumentParser(description='MovieLens Hybrid Recommender System')
     parser.add_argument('--train', action='store_true', help='Train models')
     parser.add_argument('--evaluate', action='store_true', help='Evaluate models')

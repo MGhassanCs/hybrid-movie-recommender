@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# Data and models
+ml-1m/
+saved_models/
+
+
+# Environments
+myenv/
+lightfm-env/
+.env
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+*.ipynb_checkpoints
+*.log
+
+# Test and type cache
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+tests/__pycache__/
+tests/*.pyc
