@@ -31,8 +31,8 @@ RUN pip install --upgrade pip && \
 # Copy the rest of the project
 COPY . .
 
-# Expose port for Streamlit
-EXPOSE 8501
+# Expose port for Streamlit (Hugging Face Spaces expects 7860)
+EXPOSE 7860
 
-# Default command: open bash (user can run any script)
-CMD ["bash"] 
+# Default command: launch Streamlit app on the correct port
+CMD ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0"] 

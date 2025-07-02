@@ -12,13 +12,15 @@ from movie_recommender.utils.metrics import rmse, precision_at_k, recall_at_k, m
 from sklearn.model_selection import train_test_split
 from collections import defaultdict
 from tqdm import tqdm
+import json
+import os
 
 #Tests can take a while to run, so either run them in a separate file or comment out the parts you don't want to run.
 
 # --- Toggle these flags to control retraining and grid search ---
 RETRAIN_SVD = False
-RETRAIN_SVDPP = True
-RETRAIN_NMF = True
+RETRAIN_SVDPP = False
+RETRAIN_NMF = False
 GRID_SEARCH_SVD = False  # Set to True to run SVD grid search
 GRID_SEARCH_SVDPP = False  # Set to True to run SVD++ grid search
 GRID_SEARCH_NMF = False  # Set to True to run NMF grid search
@@ -119,9 +121,13 @@ def main():
     for user_id, relevant_movies in tqdm(list(test_ratings_by_user.items()), desc='Users'):
         seen_movies = train_movies_by_user[user_id]
         # Content-based
-        user_train_ratings = train_ratings[train_ratings['UserID'] == user_id][['MovieID', 'Rating']]
-        content_recs = content_model.recommend_for_user(user_train_ratings, top_n=20, exclude_ids=seen_movies)
-        content_recs = [mid for mid in content_recs['MovieID'] if mid not in seen_movies][:10]
+        user_train_ratings = train_ratings[train_ratings['UserID'] == user_id][['MovieID', 'Rating']].copy()
+        if isinstance(user_train_ratings, pd.DataFrame):
+            content_recs_df = content_model.recommend_for_user(user_train_ratings, top_n=20, exclude_ids=seen_movies)
+            content_recs = list(content_recs_df['MovieID']) if not content_recs_df.empty else []
+            content_recs = [mid for mid in content_recs if mid not in seen_movies][:10]
+        else:
+            content_recs = []
         if content_recs:
             metrics['content']['prec'].append(precision_at_k(relevant_movies, content_recs, k=10))
             metrics['content']['rec'].append(recall_at_k(relevant_movies, content_recs, k=10))
@@ -170,6 +176,14 @@ def main():
 
     for model in metrics:
         print(f"{model.capitalize()} Precision@10: {np.mean(metrics[model]['prec']):.4f}, Recall@10: {np.mean(metrics[model]['rec']):.4f}, MAP@10: {np.mean(metrics[model]['map']):.4f}, NDCG@10: {np.mean(metrics[model]['ndcg']):.4f}")
+
+    # Save metrics to JSON for visualization
+    os.makedirs('plots', exist_ok=True)
+    for model in metrics:
+        metric_names = ['Precision@10', 'Recall@10', 'MAP@10', 'NDCG@10']
+        means = {name: float(np.mean(metrics[model][short])) for name, short in zip(metric_names, ['prec', 'rec', 'map', 'ndcg'])}
+        with open(f'plots/{model}_metrics.json', 'w') as f:
+            json.dump(means, f, indent=2)
 
     # Evaluate RMSE for SVD, SVD++, NMF
     print('Evaluating RMSE for collaborative models...')

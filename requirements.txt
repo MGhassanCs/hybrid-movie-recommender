@@ -3,7 +3,7 @@ scikit-learn
 scikit-surprise
 streamlit
 gradio
-numpy 
+numpy==1.24.4
 joblib 
 matplotlib
 seaborn

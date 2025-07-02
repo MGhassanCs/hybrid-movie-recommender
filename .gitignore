@@ -26,3 +26,8 @@ lightfm-env/
 
 tests/__pycache__/
 tests/*.pyc
+
+
+docs/assets/Movies.png
+docs/assets/UserID.png docs/assets/Movies.png
+docs/assets/UserID.png

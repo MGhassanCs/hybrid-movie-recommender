@@ -17,4 +17,6 @@ lightfm-env/
 README.md
 tests/__pycache__/
 tests/*.pyc
-ml-1m/ 
+ml-1m/
+docs/assets/Movies.png
+docs/assets/UserID.png 
