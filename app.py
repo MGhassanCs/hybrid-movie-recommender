@@ -168,14 +168,15 @@ with col1:
                     
                     st.success(f"🎉 Found {len(hybrid_recs)} perfect matches for User {user_id}!")
                     
-                    # Display recommendations in a nice format
+                    # Debug: Show what we got
+                    st.write(f"Debug: Found {len(hybrid_movie_ids)} movie IDs")
+                    st.write(f"Debug: Matched {len(hybrid_recs)} movies in database")
+                    
+                    # Display recommendations in a simple, clear format
                     for idx, (_, movie) in enumerate(hybrid_recs.iterrows(), 1):
-                        st.markdown(f"""
-                        <div class="movie-card">
-                            <h4>{idx}. {movie['Title']}</h4>
-                            <p><strong>Genres:</strong> {movie['Genres']}</p>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.markdown(f"**{idx}. {movie['Title']}**")
+                        st.write(f"Genres: {movie['Genres']}")
+                        st.write("---")
                 else:
                     st.warning("No recommendations found for this user. Try a different user ID.")
                     
