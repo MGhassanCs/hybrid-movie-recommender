@@ -4,7 +4,7 @@ __pycache__/
 
 # Data and models
 ml-1m/
-saved_models/
+# saved_models/ - commented out for HF Spaces deployment
 
 
 # Environments
