@@ -32,7 +32,8 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # Create directories with proper permissions
-RUN mkdir -p /tmp/surprise_data && chmod 777 /tmp/surprise_data
+RUN mkdir -p /tmp/surprise_data && chmod 777 /tmp/surprise_data && \
+    mkdir -p /app/saved_models && chmod 755 /app/saved_models
 
 # Expose port for Streamlit (Hugging Face Spaces expects 7860)
 EXPOSE 7860

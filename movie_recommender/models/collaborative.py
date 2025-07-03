@@ -35,7 +35,11 @@ import os
 from typing import Optional
 
 MODEL_DIR = os.path.join(os.path.dirname(__file__), '../../saved_models')
-os.makedirs(MODEL_DIR, exist_ok=True)
+# Don't create directory in containerized environments - models should already exist
+if not os.path.exists(MODEL_DIR):
+    # In containerized environments, use a writable temp directory
+    MODEL_DIR = '/tmp/saved_models'
+    os.makedirs(MODEL_DIR, exist_ok=True)
 
 class SVDRecommender:
     """
