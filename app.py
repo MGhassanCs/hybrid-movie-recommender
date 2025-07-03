@@ -4,8 +4,15 @@ import streamlit as st
 import pandas as pd
 from typing import Dict, List, Optional
 
-# Set surprise data folder to a writable location
+# Set up all environment variables for containerized deployment
 os.environ['SURPRISE_DATA_FOLDER'] = '/tmp/surprise_data'
+os.environ['STREAMLIT_CONFIG_DIR'] = '/tmp/streamlit'
+os.environ['STREAMLIT_BROWSER_GATHER_USAGE_STATS'] = 'false'
+os.environ['HOME'] = '/tmp'
+
+# Create writable directories if they don't exist
+for dir_path in ['/tmp/surprise_data', '/tmp/streamlit']:
+    os.makedirs(dir_path, exist_ok=True)
 
 # Add the project root to sys.path so imports work
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))

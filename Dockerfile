@@ -31,9 +31,15 @@ RUN pip install --upgrade pip && \
 # Copy the rest of the project
 COPY . .
 
-# Create directories with proper permissions
+# Create directories with proper permissions and set environment variables
 RUN mkdir -p /tmp/surprise_data && chmod 777 /tmp/surprise_data && \
-    mkdir -p /app/saved_models && chmod 755 /app/saved_models
+    mkdir -p /tmp/streamlit && chmod 777 /tmp/streamlit && \
+    chmod -R 755 /app
+
+# Set environment variables for writable directories
+ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+ENV SURPRISE_DATA_FOLDER=/tmp/surprise_data
+ENV STREAMLIT_CONFIG_DIR=/tmp/streamlit
 
 # Expose port for Streamlit (Hugging Face Spaces expects 7860)
 EXPOSE 7860

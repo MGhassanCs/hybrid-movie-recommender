@@ -34,10 +34,22 @@ import joblib
 import os
 from typing import Optional
 
-MODEL_DIR = os.path.join(os.path.dirname(__file__), '../../saved_models')
-# Don't create directory in containerized environments - models should already exist
-if not os.path.exists(MODEL_DIR):
-    # In containerized environments, use a writable temp directory
+# Try multiple locations for saved_models directory
+MODEL_DIRS = [
+    os.path.join(os.path.dirname(__file__), '../../saved_models'),
+    '/app/saved_models',
+    './saved_models',
+    '/tmp/saved_models'
+]
+
+MODEL_DIR = None
+for dir_path in MODEL_DIRS:
+    if os.path.exists(dir_path) and os.access(dir_path, os.R_OK):
+        MODEL_DIR = dir_path
+        break
+
+if MODEL_DIR is None:
+    # Create writable temp directory as fallback
     MODEL_DIR = '/tmp/saved_models'
     os.makedirs(MODEL_DIR, exist_ok=True)
 
