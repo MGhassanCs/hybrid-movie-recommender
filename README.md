@@ -3,9 +3,8 @@ title: MovieLens AI Movie Recommender
 emoji: 🎬
 colorFrom: blue
 colorTo: red
-sdk: streamlit
-sdk_version: 1.28.1
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 license: mit
 ---

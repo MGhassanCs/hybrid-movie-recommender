@@ -33,7 +33,7 @@ Your MovieLens AI Movie Recommender is now **ready for Hugging Face Spaces deplo
 3. Choose:
    - **Space name**: `movieLens-ai-recommender` (or your preference)
    - **License**: MIT
-   - **Space SDK**: Streamlit
+   - **Space SDK**: Docker
    - **Space hardware**: CPU basic (free tier)
 4. Under "Repository", select "Import from existing repository"
 5. Enter your GitHub URL: `https://github.com/MGhassanCs/hybrid-movie-recommender`
