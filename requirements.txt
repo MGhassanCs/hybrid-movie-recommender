@@ -1,9 +1,8 @@
-pandas
-scikit-learn
-scikit-surprise
-streamlit
-gradio
-numpy==1.24.4
-joblib 
-matplotlib
-seaborn
+pandas>=1.5.0
+scikit-learn>=1.3.0
+scikit-surprise>=1.1.3
+streamlit>=1.28.0
+numpy>=1.24.0,<2.0.0
+joblib>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0

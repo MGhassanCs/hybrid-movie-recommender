@@ -1,6 +1,46 @@
-# MovieLens 1M Hybrid Movie Recommendation System
+---
+title: MovieLens AI Movie Recommender
+emoji: 🎬
+colorFrom: blue
+colorTo: red
+sdk: streamlit
+sdk_version: 1.28.1
+app_file: app.py
+pinned: false
+license: mit
+---
 
-A modular, production-ready Python project for building a state-of-the-art movie recommender system using the MovieLens 1M dataset. Combines content-based (TF-IDF/cosine on genres, titles, year), collaborative filtering (SVD, SVD++, NMF using Surprise), and a hybrid model (weighted content+collaborative). Features a modern Streamlit UI, advanced evaluation metrics, model persistence, and visualization tools.
+# 🎬 MovieLens AI Movie Recommender
+
+A state-of-the-art hybrid movie recommendation system powered by AI, deployed on Hugging Face Spaces! This application combines collaborative filtering and content-based approaches to deliver personalized movie recommendations using the MovieLens 1M dataset.
+
+## ✨ Features
+
+🤖 **Advanced AI Models**: Hybrid recommendation system combining SVD matrix factorization with TF-IDF content analysis  
+🎯 **Personalized Recommendations**: Get tailored movie suggestions based on user preferences  
+🔍 **Similar Movie Discovery**: Find movies similar to your favorites  
+📊 **High Performance**: Optimized algorithms with proven accuracy metrics  
+🚀 **Real-time Processing**: Instant recommendations with cached models  
+
+## 🎮 How to Use
+
+1. **Select a User ID** from the sidebar to get personalized recommendations
+2. **Choose a Movie** you like to find similar films
+3. **Click the buttons** to generate AI-powered recommendations
+4. **Explore** the results and discover your next favorite movie!
+
+## 🧠 AI Technology
+
+- **Hybrid Model**: Combines collaborative and content-based filtering (α=0.6)
+- **SVD Matrix Factorization**: Learns user and item patterns from 1M ratings
+- **TF-IDF Content Analysis**: Analyzes movie genres, titles, and metadata
+- **Performance**: 9.12% Precision@10, 9.81% NDCG@10
+
+## 📊 Dataset
+
+- **MovieLens 1M**: 1 million ratings from 6,000 users on 4,000 movies
+- **Rich Metadata**: Genres, titles, release years, user demographics
+- **Quality Assured**: Curated dataset widely used in recommender system research
 
 ## Features
 - **Content-based filtering:** TF-IDF and cosine similarity on genres, titles, and year
