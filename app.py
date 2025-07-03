@@ -4,6 +4,9 @@ import streamlit as st
 import pandas as pd
 from typing import Dict, List, Optional
 
+# Set surprise data folder to a writable location
+os.environ['SURPRISE_DATA_FOLDER'] = '/tmp/surprise_data'
+
 # Add the project root to sys.path so imports work
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
